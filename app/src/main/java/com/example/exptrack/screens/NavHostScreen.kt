@@ -16,5 +16,8 @@ fun NavHostScreen(modifier: Modifier){
         composable(route = "/addScreen"){
             addScreen(navController)
         }
+        composable( route = "/graphScreen"){
+            GraphScreen(navController)
+        }
     }
 }

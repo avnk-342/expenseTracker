@@ -10,7 +10,7 @@ data class TransactionEntities(
     val title: String,
     val date: String,
     val amount: Double,
-    val type: String, // weather it is INCOME or EXPENSE
+    val type: TransactionType, // weather it is INCOME or EXPENSE
     val description: String?, //if user wants to add description
 
     @PrimaryKey(autoGenerate = true)

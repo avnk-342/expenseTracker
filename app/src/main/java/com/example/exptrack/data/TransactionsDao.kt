@@ -21,6 +21,9 @@ interface TransactionsDao {
     @Query("SELECT * FROM user_exp WHERE id= :Id")
     fun getDataOnId(Id:Int): List<TransactionEntities>
 
-    @Query("SELECT * FROM user_exp WHERE type = 'income'")
+    @Query("SELECT * FROM user_exp WHERE type = 'INCOME'")
     fun getIncomeValue() : List<TransactionEntities>
+
+    @Query("SELECT * FROM user_exp WHERE type = 'EXPENSE' ORDER BY date ASC")
+    fun getExpenses(): Flow<List<TransactionEntities>>
 }

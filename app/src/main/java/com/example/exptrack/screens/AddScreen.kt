@@ -57,6 +57,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.exptrack.data.TransactionEntities
+import com.example.exptrack.data.TransactionType
 import com.example.exptrack.ui.theme.shape.CurvedTopAppBar
 import com.example.exptrack.utils.DateFormat
 import com.example.exptrack.viewModels.AddExpenseViewModelFactory
@@ -150,7 +151,7 @@ fun dataForm(onAddClick: (model: TransactionEntities)->Unit){
     val title = remember { mutableStateOf("") }
     val date = remember { mutableLongStateOf(0L) }
     val dateDialogVisibility = remember { mutableStateOf(false) }
-    val type = remember { mutableStateOf("Expense") }
+    val type = remember { mutableStateOf(TransactionType.EXPENSE) }
     val description = remember { mutableStateOf("") }
 
 
@@ -207,7 +208,7 @@ fun dataForm(onAddClick: (model: TransactionEntities)->Unit){
             //Type dropdown menu string
             Text(text = "TYPE", fontSize = 16.sp, color = Color.Gray)
             Spacer(modifier = Modifier.height(10.dp))
-            typeDropdown(listOfOptions = listOf("Expense", "Income"), onItemSelected = { type.value = it })
+            typeDropdown(selectedType = type.value, onTypeSelected = { type.value = it })
 
             Spacer(modifier = Modifier.height(18.dp))
 
@@ -278,21 +279,19 @@ fun DatePicker(onDateSelected: (date:Long)->Unit, onDismiss: ()->Unit){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun typeDropdown(listOfOptions: List<String>, onItemSelected: (item:String)->Unit){
+fun typeDropdown(selectedType: TransactionType, onTypeSelected: (TransactionType)->Unit){
     val expanded = remember {
         mutableStateOf(false)
     }
 
-    val selectedItem = remember {
-        mutableStateOf(listOfOptions[0])
-    }
+    val options = TransactionType.values()
 
     ExposedDropdownMenuBox(
         expanded = expanded.value,
         onExpandedChange = { expanded.value = it},
     ) {
         TextField(
-            value = selectedItem.value,
+            value = selectedType.name,
             onValueChange = {},
             modifier = Modifier
                 .fillMaxWidth()
@@ -309,12 +308,11 @@ fun typeDropdown(listOfOptions: List<String>, onItemSelected: (item:String)->Uni
         )
         
         ExposedDropdownMenu(expanded = expanded.value, onDismissRequest = { /*TODO*/ }) {
-            listOfOptions.forEach{
+            options.forEach{ option ->
                 DropdownMenuItem(
-                    text = { Text(text = it, fontSize = 18.sp) },
+                    text = { Text(text = option.name, fontSize = 18.sp) },
                     onClick = {
-                        selectedItem.value = it
-                        onItemSelected(selectedItem.value)
+                        onTypeSelected(option)
                         expanded.value = false
                     }
                 )

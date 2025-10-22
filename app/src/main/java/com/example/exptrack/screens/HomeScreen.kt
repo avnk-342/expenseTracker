@@ -59,6 +59,7 @@ import androidx.core.graphics.toColorInt
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.exptrack.data.TransactionEntities
+import com.example.exptrack.data.TransactionType
 import com.example.exptrack.ui.theme.shape.CurvedTopAppBar
 import com.example.exptrack.viewModels.HomeScreenViewModel
 import com.example.exptrack.viewModels.HomeScreenViewModelFactory
@@ -83,7 +84,7 @@ fun HomeScreen(modifier: Modifier, navController: NavController){
                         IconButton({ navController.navigate(navController.graph.startDestinationId)}) {
                             Icon(Icons.Filled.Home, "Home button")
                         }
-                        IconButton({}) {
+                        IconButton({ navController.navigate("/graphScreen") }) {
                             Icon(Icons.Filled.AlignVerticalBottom, "Charts")
                         }
                         IconButton({}) {}
@@ -263,7 +264,7 @@ fun PreviousTransactions(list: List<TransactionEntities>){
                         title = item.title,
                         amount = item.amount.toString(),
                         date = item.date,
-                        color = if(item.type=="Income") Color("#148F6C".toColorInt()) else Color.Red,
+                        color = if(item.type== TransactionType.INCOME) Color("#148F6C".toColorInt()) else Color.Red,
                         modifier = Modifier.padding(top=8.dp, bottom = 5.dp)
                     )
                 }

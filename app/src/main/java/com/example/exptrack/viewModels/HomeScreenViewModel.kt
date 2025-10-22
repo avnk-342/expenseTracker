@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.exptrack.data.TransactionDatabase
 import com.example.exptrack.data.TransactionEntities
+import com.example.exptrack.data.TransactionType
 import com.example.exptrack.data.TransactionsDao
 
 class HomeScreenViewModel(dao: TransactionsDao): ViewModel() {
@@ -20,11 +21,11 @@ class HomeScreenViewModel(dao: TransactionsDao): ViewModel() {
         var expense = 0.0
         val emptyList: MutableList<String> = mutableListOf()
         list.forEach {
-            if(it.type == "Expense"){
+            if(it.type == TransactionType.EXPENSE){
                 remaining -= it.amount
                 expense += it.amount
             }
-            else if(it.type == "Income"){
+            else if(it.type == TransactionType.INCOME){
                 remaining += it.amount
                 income += it.amount
             }
